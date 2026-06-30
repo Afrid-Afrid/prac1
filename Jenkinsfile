@@ -9,7 +9,7 @@ pipeline {
 
         stage('Clone') {
             steps {
-                git 'https://github.com/Afrid-Afrid/prac1.git'
+                git branch: 'main', url: 'https://github.com/Afrid-Afrid/prac1.git'
             }
         }
 
