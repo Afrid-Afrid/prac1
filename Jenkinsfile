@@ -7,21 +7,16 @@ pipeline {
 
     stages {
 
-        stage('Clone') {
-            steps {
-                git branch: 'main', url: 'https://github.com/Afrid-Afrid/prac1.git'
-            }
-        }
-
         stage('Install Dependencies') {
             steps {
-                sh 'pip install -r requirements.txt'
+                sh 'python3 -m venv venv'
+                sh './venv/bin/pip install -r requirements.txt'
             }
         }
 
         stage('Test') {
             steps {
-                sh 'python app.py &'
+                sh './venv/bin/python app.py &'
             }
         }
 
@@ -33,6 +28,7 @@ pipeline {
 
         stage('Deploy Swarm') {
             steps {
+                sh 'docker service rm flask-service || true'
                 sh 'docker service create --name flask-service -p 5000:5000 flask-app:v1'
             }
         }
